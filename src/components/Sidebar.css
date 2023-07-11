@@ -1,0 +1,90 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 0.25;
+  height: 100vh;
+  background-color: #2f3135;
+}
+
+.sidebar_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #2f3135;
+  color: white;
+  border-bottom: 3px solid #26282c;
+}
+
+.sidebar_header {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar_channelsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #2f3135;
+  color: grey;
+}
+.sidebar_channels {
+  flex: 1;
+}
+.sidebar_addChannel {
+  cursor: pointer;
+}
+.sidebar_addChannel:hover {
+  color: white;
+}
+
+.sidebar_voice,
+.sidebar_userProfile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: grey;
+  background-color: #2f3135;
+  padding: 10px;
+  border-top: 1px solid grey;
+}
+.sidebar_voiceIcon {
+  font-size: 35px;
+  color: #4fb185;
+}
+.sidebar_voiceInfo {
+  flex: 1;
+  padding: 10px;
+}
+
+.sidebar_voiceInfo > h4,
+.sidebar_voiceInfo > p {
+  color: #4fb185;
+}
+
+.sidebar_voiceInfo > p {
+  font-size: smaller;
+}
+
+.sidebar_userProfilePicture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #bdbdbd;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #ffffff;
+}
+
+.sidebar_userProfileInfo {
+  flex: 1;
+  padding: 10px;
+}
+
+.sidebar_userProfileInfo > h4 {
+  color: white;
+}
