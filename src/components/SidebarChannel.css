@@ -1,6 +1,6 @@
 .sidebarChannel > h4 {
   display: flex;
-  padding-left: 15px;
+  padding: 15px;
   align-items: center;
   background-color: #2f3135;
   color: grey;

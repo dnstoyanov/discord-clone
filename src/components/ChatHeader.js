@@ -9,13 +9,13 @@ import {
 import { IoMdSend } from "react-icons/io";
 import { BsPeopleFill } from "react-icons/bs";
 
-const ChatHeader = () => {
+const ChatHeader = ({ channelName }) => {
   return (
     <div className="chatHeader_header">
       <div className="chatHeader_header_left">
         <h3>
           <div className="chatHeader_header_hash">#</div>
-          Test Channel Name
+          {channelName}
         </h3>
       </div>
 

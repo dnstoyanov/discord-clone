@@ -10,13 +10,38 @@ import SidebarChannel from "./SidebarChannel";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { auth, db } from "../firebase-config";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
 
 const Sidebar = () => {
   const user = useSelector(selectUser);
   const [channels, setChannels] = useState([]);
+
   useEffect(() => {
-    db.collection("channels");
+    const unsubscribe = onSnapshot(collection(db, "channels"), (snapshot) => {
+      setChannels(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          channel: doc.data(),
+        }))
+      );
+    });
+
+    return () => unsubscribe(); // Unsubscribe from the snapshot listener when the component unmounts
   }, []);
+
+  const handleAddChannel = async () => {
+    const channelName = prompt("Enter new channel");
+    if (channelName) {
+      try {
+        const docRef = await addDoc(collection(db, "channels"), {
+          channelName: channelName,
+        });
+        console.log("Channel added with ID: ", docRef.id);
+      } catch (error) {
+        console.error("Error adding channel: ", error);
+      }
+    }
+  };
 
   return (
     <div className="sidebar">
@@ -30,13 +55,19 @@ const Sidebar = () => {
             <DownOutlined />
             <h4 style={{ marginLeft: "5px" }}>Text Channels</h4>
           </div>
-          <PlusOutlined className="sidebar_addChannel" />
+          <PlusOutlined
+            onClick={handleAddChannel}
+            className="sidebar_addChannel"
+          />
         </div>
         <div className="sidebar_channelsList">
-          <SidebarChannel />
-          <SidebarChannel />
-          <SidebarChannel />
-          <SidebarChannel />
+          {channels.map(({ id, channel }) => (
+            <SidebarChannel
+              key={id}
+              id={id}
+              channelName={channel.channelName}
+            />
+          ))}
         </div>
       </div>
 

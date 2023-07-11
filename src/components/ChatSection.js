@@ -6,11 +6,15 @@ import { FaGift } from "react-icons/fa";
 import { HiGif } from "react-icons/hi2";
 import { FaFaceSmile } from "react-icons/fa6";
 import Message from "./Message";
+import { useSelector } from "react-redux";
+import { selectChannelName } from "../features/appSlice";
 
 const ChatSection = () => {
+  const channelName = useSelector(selectChannelName);
+
   return (
     <div className="chatSection">
-      <ChatHeader />
+      <ChatHeader channelName={channelName} />
 
       <div className="chatSection_messages">
         <Message />
