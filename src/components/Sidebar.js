@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import { DownOutlined, PlusOutlined } from "@ant-design/icons";
 import { FaPhoneAlt } from "react-icons/fa";
@@ -7,8 +7,17 @@ import { MdSignalCellularAlt, MdHeadphones } from "react-icons/md";
 import { BsFillMicFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import SidebarChannel from "./SidebarChannel";
-import profilePic from "../assets/ffs.jpg";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
+import { auth, db } from "../firebase-config";
+
 const Sidebar = () => {
+  const user = useSelector(selectUser);
+  const [channels, setChannels] = useState([]);
+  useEffect(() => {
+    db.collection("channels");
+  }, []);
+
   return (
     <div className="sidebar">
       <div className="sidebar_top">
@@ -46,11 +55,12 @@ const Sidebar = () => {
       <div className="sidebar_userProfile">
         <div
           className="sidebar_userProfilePicture"
-          style={{ backgroundImage: `url(${profilePic})` }}
+          style={{ backgroundImage: `url(${user.photo})` }}
+          onClick={() => auth.signOut()}
         ></div>
         <div className="sidebar_userProfileInfo">
-          <h4>@asasdadas</h4>
-          <p>#thisIsMyID</p>
+          <h4>{user.displayName}</h4>
+          <p>#{user.uid.substring(0, 5)}</p>
         </div>
         <div className="sidebar_userProfileIcons">
           <BsFillMicFill />
