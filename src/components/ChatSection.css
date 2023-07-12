@@ -43,4 +43,5 @@
 
 .chatSection_messages {
   flex: 1;
+  overflow: auto;
 }

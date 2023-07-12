@@ -1,9 +1,11 @@
 import React from "react";
 import "./Message.css";
 
-const Message = ({ message, timestamp, user }) => {
+const Message = ({ messageKey, message, timestamp, user }) => {
+  console.log(message);
+  const timeStamp = timestamp?.toDate();
   return (
-    <div className="message">
+    <div className="message" id={messageKey}>
       <div
         className="message_userProfilePicture"
         style={{ backgroundImage: `url(${user.photo})` }}
@@ -11,9 +13,9 @@ const Message = ({ message, timestamp, user }) => {
       <div className="message_info">
         <h4>
           {user.displayName}
-          <span className="message_time">
-            {new Date(timestamp?.toDate()).toUTCString()}
-          </span>
+          {timeStamp && (
+            <span className="message_time">{timeStamp.toUTCString()}</span>
+          )}
         </h4>
         <p>{message}</p>
       </div>

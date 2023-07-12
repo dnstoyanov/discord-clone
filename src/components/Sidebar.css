@@ -88,3 +88,12 @@
 .sidebar_userProfileInfo > h4 {
   color: white;
 }
+
+.sidebar_userProfileIcons_icon {
+  padding: 7px;
+  cursor: pointer;
+  font-size: large;
+}
+.sidebar_userProfileIcons_icon:hover {
+  color: white;
+}

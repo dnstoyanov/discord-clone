@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ChatSection.css";
 import ChatHeader from "./ChatHeader";
 import { MdAddCircle } from "react-icons/md";
@@ -8,6 +8,8 @@ import { FaFaceSmile } from "react-icons/fa6";
 import Message from "./Message";
 import { useSelector } from "react-redux";
 import { db } from "../firebase-config";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   collection,
   addDoc,
@@ -22,10 +24,10 @@ import { selectUser } from "../features/userSlice";
 const ChatSection = () => {
   const channelName = useSelector(selectChannelName);
   const channelId = useSelector(selectChannelId);
-  console.log(channelId);
   const user = useSelector(selectUser);
   const [inputField, setInputField] = useState("");
   const [messages, setMessages] = useState([]);
+  const chatRef = useRef(null);
 
   useEffect(() => {
     if (!channelId) {
@@ -44,10 +46,16 @@ const ChatSection = () => {
     );
 
     return () => {
-      // Unsubscribe from the snapshot listener when the component unmounts
       unsubscribe();
     };
   }, [channelId]);
+
+  const scrollToBottom = () => {
+    chatRef.current.scrollIntoView({
+      behaviour: "smooth",
+      block: "start",
+    });
+  };
 
   const handleSendMessage = async (event) => {
     event.preventDefault();
@@ -55,7 +63,7 @@ const ChatSection = () => {
       const docRef = await addDoc(
         collection(db, "channels", channelId, "messages"),
         {
-          id: Date.now(),
+          id: uuidv4(),
           timestamp: serverTimestamp(),
           message: inputField,
           user: user,
@@ -66,6 +74,7 @@ const ChatSection = () => {
       console.error("Error adding message: ", error);
     }
     setInputField("");
+    scrollToBottom();
   };
 
   return (
@@ -73,14 +82,21 @@ const ChatSection = () => {
       <ChatHeader channelName={channelName} />
 
       <div className="chatSection_messages">
-        {messages.map((message) => (
-          <Message
-            key={message.id}
-            timestamp={message.timestamp}
-            message={message.message}
-            user={message.user}
-          />
-        ))}
+        {messages.map((message) => {
+          if (!message.id) {
+            return null;
+          }
+          return (
+            <Message
+              key={message.id}
+              messageKey={message.id}
+              timestamp={message.timestamp}
+              message={message.message}
+              user={message.user}
+            />
+          );
+        })}
+        <div ref={chatRef} />
       </div>
       <div className="chatSection_input">
         <MdAddCircle className="chatSection_inputIcon" />
@@ -89,7 +105,7 @@ const ChatSection = () => {
             value={inputField}
             disabled={!channelId}
             onChange={(event) => setInputField(event.target.value)}
-            placeholder={`Message ${channelName}`}
+            placeholder={`Message #${channelName}`}
           />
           <button
             className="chatSection_inputBtn"

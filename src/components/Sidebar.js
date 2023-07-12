@@ -71,7 +71,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="sidebar_voice">
+      {/* <div className="sidebar_voice">
         <MdSignalCellularAlt className="sidebar_voiceIcon" />
         <div className="sidebar_voiceInfo">
           <h4>Voice Connected</h4>
@@ -81,7 +81,7 @@ const Sidebar = () => {
           <FaPhoneAlt />
           <AiOutlineInfoCircle />
         </div>
-      </div>
+      </div> */}
 
       <div className="sidebar_userProfile">
         <div
@@ -94,9 +94,9 @@ const Sidebar = () => {
           <p>#{user.uid.substring(0, 5)}</p>
         </div>
         <div className="sidebar_userProfileIcons">
-          <BsFillMicFill />
-          <MdHeadphones />
-          <IoMdSettings />
+          <BsFillMicFill className="sidebar_userProfileIcons_icon" />
+          <MdHeadphones className="sidebar_userProfileIcons_icon" />
+          <IoMdSettings className="sidebar_userProfileIcons_icon" />
         </div>
       </div>
     </div>
