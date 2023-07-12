@@ -3,7 +3,7 @@ import "./App.css";
 import Sidebar from "./components/Sidebar";
 import ChatSection from "./components/ChatSection";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser, logout } from "./features/userSlice";
+import { login, selectUser, logout } from "./store/userSlice";
 import Login from "./components/Login";
 import { auth } from "./firebase-config";
 

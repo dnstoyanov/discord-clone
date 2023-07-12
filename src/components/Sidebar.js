@@ -8,7 +8,7 @@ import { BsFillMicFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import SidebarChannel from "./SidebarChannel";
 import { useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
+import { selectUser } from "../store/userSlice";
 import { auth, db } from "../firebase-config";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
 

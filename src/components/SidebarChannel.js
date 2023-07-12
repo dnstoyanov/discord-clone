@@ -1,7 +1,7 @@
 import React from "react";
 import "./SidebarChannel.css";
 import { useDispatch } from "react-redux";
-import { channelInfo } from "../features/appSlice";
+import { channelInfo } from "../store/appSlice";
 const SidebarChannel = ({ id, channelName }) => {
   const dispatch = useDispatch();
 

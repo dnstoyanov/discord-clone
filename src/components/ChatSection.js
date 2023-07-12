@@ -18,8 +18,8 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { selectChannelId, selectChannelName } from "../features/appSlice";
-import { selectUser } from "../features/userSlice";
+import { selectChannelId, selectChannelName } from "../store/appSlice";
+import { selectUser } from "../store/userSlice";
 
 const ChatSection = () => {
   const channelName = useSelector(selectChannelName);
