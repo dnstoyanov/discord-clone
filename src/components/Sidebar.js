@@ -26,7 +26,7 @@ const Sidebar = () => {
       );
     });
 
-    return () => unsubscribe(); // Unsubscribe from the snapshot listener when the component unmounts
+    return () => unsubscribe();
   }, []);
 
   const handleAddChannel = async () => {
