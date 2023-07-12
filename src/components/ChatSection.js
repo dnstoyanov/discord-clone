@@ -28,6 +28,9 @@ const ChatSection = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    if (!channelId) {
+      return;
+    }
     const messagesRef = collection(db, "channels", channelId, "messages");
     const unsubscribe = onSnapshot(
       query(messagesRef, orderBy("timestamp")),
