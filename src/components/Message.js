@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import "./Message.css";
 import { useSelector } from "react-redux";
@@ -6,15 +6,7 @@ import { selectUser } from "../store/userSlice";
 import { BsTrashFill } from "react-icons/bs";
 import { selectChannelId } from "../store/appSlice";
 import { db } from "../firebase-config";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  getDoc,
-  doc,
-  deleteDoc,
-} from "firebase/firestore";
+import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import ConfirmModal from "./ConfirmModal";
 
 const Message = ({ message, timestamp, user, id, email }) => {
@@ -25,11 +17,12 @@ const Message = ({ message, timestamp, user, id, email }) => {
   const messageId = id;
 
   const handleOpenModal = () => {
+    setIsHovered(false);
     setIsModalOpen(true);
-    console.log("modal opened");
   };
 
   const handleCloseModal = () => {
+    setIsHovered(false);
     setIsModalOpen(false);
   };
   const handleMouseEnter = () => {
@@ -47,6 +40,7 @@ const Message = ({ message, timestamp, user, id, email }) => {
 
       if (messageSnapshot.exists()) {
         await deleteDoc(messageRef);
+        setIsHovered(false);
         console.log("Message deleted successfully!");
       } else {
         console.log("Message not found.");
@@ -59,7 +53,6 @@ const Message = ({ message, timestamp, user, id, email }) => {
   return (
     <div
       className="message"
-      id={messageId}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

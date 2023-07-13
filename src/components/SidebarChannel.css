@@ -1,17 +1,41 @@
-.sidebarChannel > h4 {
+.sidebarChannel {
   display: flex;
-  padding: 15px;
   align-items: center;
+  padding: 20px;
   background-color: #2f3135;
   color: grey;
   cursor: pointer;
 }
 
-.sidebarChannel:hover > h4 {
+.sidebarChannel > h4 {
+  padding: 15px;
+  align-items: center;
+}
+.sidebarChannel_container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebarChannel:hover {
   color: white;
   background-color: #40464b;
 }
 
 .siderbar_hash {
+  font-size: large;
+  font-weight: bold;
   padding-right: 5px;
+}
+
+.msg_delete_icon {
+  color: grey;
+  font-size: large;
+  margin-right: 20px;
+}
+
+.msg_delete_icon:hover {
+  color: white;
+  cursor: pointer;
 }

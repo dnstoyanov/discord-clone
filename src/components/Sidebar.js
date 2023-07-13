@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import { DownOutlined, PlusOutlined } from "@ant-design/icons";
-import { FaPhoneAlt } from "react-icons/fa";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import { MdSignalCellularAlt, MdHeadphones } from "react-icons/md";
+import { MdHeadphones } from "react-icons/md";
 import { BsFillMicFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
 import SidebarChannel from "./SidebarChannel";
@@ -35,6 +33,7 @@ const Sidebar = () => {
       try {
         const docRef = await addDoc(collection(db, "channels"), {
           channelName: channelName,
+          createdBy: user.uid,
         });
         console.log("Channel added with ID: ", docRef.id);
       } catch (error) {
@@ -64,24 +63,13 @@ const Sidebar = () => {
           {channels.map(({ id, channel }) => (
             <SidebarChannel
               key={id}
-              id={id}
+              channelId={id}
               channelName={channel.channelName}
+              createdBy={channel.createdBy}
             />
           ))}
         </div>
       </div>
-
-      {/* <div className="sidebar_voice">
-        <MdSignalCellularAlt className="sidebar_voiceIcon" />
-        <div className="sidebar_voiceInfo">
-          <h4>Voice Connected</h4>
-          <p>Stream</p>
-        </div>
-        <div className="sidebar_voiceIcons">
-          <FaPhoneAlt />
-          <AiOutlineInfoCircle />
-        </div>
-      </div> */}
 
       <div className="sidebar_userProfile">
         <div
