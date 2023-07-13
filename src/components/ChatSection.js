@@ -96,6 +96,7 @@ const ChatSection = () => {
           }
           return (
             <Message
+              key={message.id}
               message={message.message}
               timestamp={message.timestamp}
               user={message.user}
