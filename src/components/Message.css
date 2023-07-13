@@ -3,6 +3,11 @@
   align-items: center;
   padding: 20px;
   color: white;
+  justify-content: space-between;
+}
+.message_container {
+  display: flex;
+  flex-direction: row;
 }
 .message:hover {
   background-color: #2d3135;
@@ -29,4 +34,15 @@
   justify-content: center;
   font-size: 24px;
   color: #ffffff;
+}
+
+.msg_delete_icon {
+  color: grey;
+  font-size: large;
+  margin-right: 20px;
+}
+
+.msg_delete_icon:hover {
+  color: white;
+  cursor: pointer;
 }

@@ -16,6 +16,7 @@ import {
   serverTimestamp,
   onSnapshot,
   orderBy,
+  doc,
   query,
 } from "firebase/firestore";
 import { selectChannelId, selectChannelName } from "../store/appSlice";
@@ -39,7 +40,14 @@ const ChatSection = () => {
       (snapshot) => {
         const fetchedMessages = [];
         snapshot.forEach((doc) => {
-          fetchedMessages.push(doc.data());
+          const messageData = doc.data();
+          fetchedMessages.push({
+            id: doc.id,
+            email: messageData.user.email,
+            message: messageData.message,
+            user: messageData.user,
+            timestamp: messageData.timestamp?.toDate().toUTCString(),
+          });
         });
         setMessages(fetchedMessages);
       }
@@ -88,11 +96,11 @@ const ChatSection = () => {
           }
           return (
             <Message
-              key={message.id}
-              messageKey={message.id}
-              timestamp={message.timestamp}
               message={message.message}
+              timestamp={message.timestamp}
               user={message.user}
+              email={message.email}
+              id={message.id}
             />
           );
         })}
