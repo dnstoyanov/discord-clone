@@ -9,10 +9,18 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { auth, db } from "../firebase-config";
 import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { channelInfo } from "../store/appSlice";
 
 const Sidebar = () => {
   const user = useSelector(selectUser);
   const [channels, setChannels] = useState([]);
+  const [isSelected, setIsSelected] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleIsSelected = () => {
+    setIsSelected(true);
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "channels"), (snapshot) => {
@@ -26,6 +34,19 @@ const Sidebar = () => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (channels.length > 0) {
+      const firstChannel = channels[0];
+      dispatch(
+        channelInfo({
+          channelId: firstChannel.id,
+          channelName: firstChannel.channel.channelName,
+        })
+      );
+      handleIsSelected();
+    }
+  }, [channels, dispatch]);
 
   const handleAddChannel = async () => {
     const channelName = prompt("Enter new channel");
@@ -62,6 +83,8 @@ const Sidebar = () => {
         <div className="sidebar_channelsList">
           {channels.map(({ id, channel }) => (
             <SidebarChannel
+              isSelected={isSelected}
+              handleIsSelected={handleIsSelected}
               key={id}
               channelId={id}
               channelName={channel.channelName}

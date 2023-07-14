@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SidebarChannel.css";
 import { useDispatch } from "react-redux";
-import { channelInfo } from "../store/appSlice";
+import { channelInfo, selectChannelId } from "../store/appSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { BsTrashFill } from "react-icons/bs";
@@ -9,12 +9,18 @@ import { getDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import ConfirmModal from "./ConfirmModal";
 
-const SidebarChannel = ({ channelId, channelName, createdBy }) => {
+const SidebarChannel = ({
+  channelId,
+  channelName,
+  createdBy,
+  isSelected,
+  handleIsSelected,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const dispatch = useDispatch();
   const loggeduUser = useSelector(selectUser);
+  const selectedChannelID = useSelector(selectChannelId);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -52,15 +58,18 @@ const SidebarChannel = ({ channelId, channelName, createdBy }) => {
 
   return (
     <div
-      className="sidebarChannel"
-      onClick={() =>
+      className={`sidebarChannel ${
+        selectedChannelID === channelId ? "selected" : ""
+      }`}
+      onClick={() => {
         dispatch(
           channelInfo({
             channelId: channelId,
             channelName: channelName,
           })
-        )
-      }
+        );
+        handleIsSelected();
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

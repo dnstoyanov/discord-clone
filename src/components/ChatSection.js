@@ -21,6 +21,7 @@ import {
 } from "firebase/firestore";
 import { selectChannelId, selectChannelName } from "../store/appSlice";
 import { selectUser } from "../store/userSlice";
+import EmojiPicker from "emoji-picker-react";
 
 const ChatSection = () => {
   const channelName = useSelector(selectChannelName);
@@ -28,6 +29,7 @@ const ChatSection = () => {
   const user = useSelector(selectUser);
   const [inputField, setInputField] = useState("");
   const [messages, setMessages] = useState([]);
+  const [emojiOpen, setEmojiOpen] = useState(false);
   const chatRef = useRef(null);
 
   useEffect(() => {
@@ -65,6 +67,14 @@ const ChatSection = () => {
     });
   };
 
+  const handleOpenEmoji = () => {
+    setEmojiOpen(true);
+  };
+
+  const handleCloseEmoji = () => {
+    setEmojiOpen(false);
+  };
+
   const handleSendMessage = async (event) => {
     event.preventDefault();
     try {
@@ -83,6 +93,11 @@ const ChatSection = () => {
     }
     setInputField("");
     scrollToBottom();
+  };
+
+  const handleEmojiClick = (event, emojiObject) => {
+    const emoji = emojiObject.emoji;
+    setInputField((prevInputField) => prevInputField + emoji);
   };
 
   return (
@@ -128,9 +143,20 @@ const ChatSection = () => {
         <div className="chatSection_inputIcons">
           <FaGift className="chatSection_inputIcon" />
           <HiGif className="chatSection_inputIcon" />
-          <FaFaceSmile className="chatSection_inputIcon" />
+          <FaFaceSmile
+            className="chatSection_inputIcon"
+            onClick={handleOpenEmoji}
+          />
         </div>
       </div>
+      {emojiOpen && (
+        <div className="emojiPickerDialog">
+          <EmojiPicker onEmojiClick={handleEmojiClick} />
+          <button className="emojiPickerCloseBtn" onClick={handleCloseEmoji}>
+            Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };
