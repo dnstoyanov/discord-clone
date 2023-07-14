@@ -8,14 +8,7 @@ import SidebarChannel from "./SidebarChannel";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { auth, db } from "../firebase-config";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  doc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { channelInfo } from "../store/appSlice";
 

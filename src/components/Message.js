@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./Message.css";
 import { useSelector } from "react-redux";
@@ -10,13 +10,25 @@ import { selectChannelId } from "../store/appSlice";
 import { db } from "../firebase-config";
 import { getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import ConfirmModal from "./ConfirmModal";
+import EditModal from "./EditModal";
 
 const Message = ({ message, timestamp, user, id, email }) => {
   const loggeduUser = useSelector(selectUser);
   const channelId = useSelector(selectChannelId);
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputField, setInputField] = useState("");
+
   const messageId = id;
+
+  const handleOpenEditModal = () => {
+    setIsEditing(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditing(false);
+  };
 
   const handleOpenModal = () => {
     setIsHovered(false);
@@ -64,10 +76,9 @@ const Message = ({ message, timestamp, user, id, email }) => {
           messageId
         );
         const messageSnapshot = await getDoc(messageRef);
-        console.log("messageSnapshot", messageSnapshot);
 
         if (messageSnapshot.exists()) {
-          const message = prompt("Enter updated message");
+          const message = inputField;
 
           await updateDoc(messageRef, {
             message: message,
@@ -104,7 +115,7 @@ const Message = ({ message, timestamp, user, id, email }) => {
       </div>
       {loggeduUser.email === email && isHovered && (
         <div className="msg_icons">
-          <div onClick={handleEditMessage}>
+          <div onClick={handleOpenEditModal}>
             <AiFillEdit className="msg_edit_icon" />
           </div>
           <div onClick={handleOpenModal}>
@@ -116,6 +127,16 @@ const Message = ({ message, timestamp, user, id, email }) => {
         <ConfirmModal
           onClose={handleCloseModal}
           onConfirm={handleDeleteMessage}
+        />
+      )}
+
+      {isEditing && (
+        <EditModal
+          messageId={messageId}
+          setInputField={setInputField}
+          message={message}
+          onClose={handleCloseEditModal}
+          onConfirm={handleEditMessage}
         />
       )}
     </div>

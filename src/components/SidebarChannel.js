@@ -9,12 +9,12 @@ import { AiFillEdit } from "react-icons/ai";
 import { getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import ConfirmModal from "./ConfirmModal";
+import EditModal from "./EditModal";
 
 const SidebarChannel = ({
   channelId,
   channelName,
   createdBy,
-  isSelected,
   handleIsSelected,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -22,6 +22,16 @@ const SidebarChannel = ({
   const dispatch = useDispatch();
   const loggeduUser = useSelector(selectUser);
   const selectedChannelID = useSelector(selectChannelId);
+  const [isEditing, setIsEditing] = useState(false);
+  const [inputField, setInputField] = useState("");
+
+  const handleOpenEditModal = () => {
+    setIsEditing(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditing(false);
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -65,7 +75,7 @@ const SidebarChannel = ({
         const channelSnapshot = await getDoc(channelRef);
 
         if (channelSnapshot.exists()) {
-          const channelName = prompt("Enter updated channel name");
+          const channelName = inputField;
           const createdBy = channelSnapshot.data().createdBy;
 
           await updateDoc(channelRef, {
@@ -104,7 +114,7 @@ const SidebarChannel = ({
         <div className="siderbar_hash"># {channelName}</div>
         {loggeduUser.uid === createdBy && isHovered && (
           <div className="sidebar_icons">
-            <div onClick={handleEditChannel}>
+            <div onClick={handleOpenEditModal}>
               <AiFillEdit className="msg_edit_icon" />
             </div>
             <div onClick={handleOpenModal}>
@@ -117,6 +127,14 @@ const SidebarChannel = ({
             onClose={handleCloseModal}
             onConfirm={() => handleDeleteChannel(channelId)}
             channelId={channelId}
+          />
+        )}
+        {isEditing && (
+          <EditModal
+            setInputField={setInputField}
+            message={channelName}
+            onClose={handleCloseEditModal}
+            onConfirm={handleEditChannel}
           />
         )}
       </div>
