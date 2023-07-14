@@ -16,7 +16,6 @@ import {
   serverTimestamp,
   onSnapshot,
   orderBy,
-  doc,
   query,
 } from "firebase/firestore";
 import { selectChannelId, selectChannelName } from "../store/appSlice";
