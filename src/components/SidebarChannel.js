@@ -5,7 +5,8 @@ import { channelInfo, selectChannelId } from "../store/appSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/userSlice";
 import { BsTrashFill } from "react-icons/bs";
-import { getDoc, doc, deleteDoc } from "firebase/firestore";
+import { AiFillEdit } from "react-icons/ai";
+import { getDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import ConfirmModal from "./ConfirmModal";
 
@@ -56,6 +57,32 @@ const SidebarChannel = ({
     }
   };
 
+  const handleEditChannel = async () => {
+    const editedChannelId = channelId;
+    if (editedChannelId) {
+      try {
+        const channelRef = doc(db, "channels", editedChannelId);
+        const channelSnapshot = await getDoc(channelRef);
+
+        if (channelSnapshot.exists()) {
+          const channelName = prompt("Enter updated channel name");
+          const createdBy = channelSnapshot.data().createdBy;
+
+          await updateDoc(channelRef, {
+            channelName: channelName,
+            createdBy: createdBy,
+          });
+
+          console.log("Channel updated successfully");
+        } else {
+          console.log("Channel does not exist");
+        }
+      } catch (error) {
+        console.error("Error updating channel: ", error);
+      }
+    }
+  };
+
   return (
     <div
       className={`sidebarChannel ${
@@ -76,8 +103,13 @@ const SidebarChannel = ({
       <div className="sidebarChannel_container">
         <div className="siderbar_hash"># {channelName}</div>
         {loggeduUser.uid === createdBy && isHovered && (
-          <div onClick={handleOpenModal}>
-            <BsTrashFill className="msg_delete_icon" />
+          <div className="sidebar_icons">
+            <div onClick={handleEditChannel}>
+              <AiFillEdit className="msg_edit_icon" />
+            </div>
+            <div onClick={handleOpenModal}>
+              <BsTrashFill className="msg_delete_icon" />
+            </div>
           </div>
         )}
         {isModalOpen && (
