@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./SidebarChannel.css";
 import { useDispatch } from "react-redux";
 import { channelInfo, selectChannelId } from "../store/appSlice";
