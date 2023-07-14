@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/discord-clone/static/css/main.2a795811.css",
+    "main.js": "/discord-clone/static/js/main.01790bd1.js",
+    "index.html": "/discord-clone/index.html",
+    "main.2a795811.css.map": "/discord-clone/static/css/main.2a795811.css.map",
+    "main.01790bd1.js.map": "/discord-clone/static/js/main.01790bd1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2a795811.css",
+    "static/js/main.01790bd1.js"
+  ]
+}
