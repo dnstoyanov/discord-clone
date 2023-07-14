@@ -45,7 +45,7 @@
   justify-content: space-between;
   align-items: center;
   color: grey;
-  background-color: #2f3135;
+  background-color: #27282b;
   padding: 10px;
   border-top: 1px solid grey;
 }
@@ -96,4 +96,14 @@
 }
 .sidebar_userProfileIcons_icon:hover {
   color: white;
+}
+
+.sidebar_userProfile_container {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+.sidebar_userProfile_container:hover {
+  background-color: #404246;
+  border-radius: 2px;
 }

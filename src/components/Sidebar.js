@@ -95,15 +95,18 @@ const Sidebar = () => {
       </div>
 
       <div className="sidebar_userProfile">
-        <div
-          className="sidebar_userProfilePicture"
-          style={{ backgroundImage: `url(${user.photo})` }}
-          onClick={() => auth.signOut()}
-        ></div>
-        <div className="sidebar_userProfileInfo">
-          <h4>{user.displayName}</h4>
-          <p>#{user.uid.substring(0, 5)}</p>
+        <div className="sidebar_userProfile_container">
+          <div
+            className="sidebar_userProfilePicture"
+            style={{ backgroundImage: `url(${user.photo})` }}
+            onClick={() => auth.signOut()}
+          ></div>
+          <div className="sidebar_userProfileInfo">
+            <h4>{user.displayName}</h4>
+            <p>#{user.uid.substring(0, 5)}</p>
+          </div>
         </div>
+
         <div className="sidebar_userProfileIcons">
           <BsFillMicFill className="sidebar_userProfileIcons_icon" />
           <MdHeadphones className="sidebar_userProfileIcons_icon" />
